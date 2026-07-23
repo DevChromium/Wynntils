@@ -293,9 +293,9 @@ public final class IdentifiableTooltipBuilder<T, U> extends TooltipBuilder {
             lines.add(new TooltipLine.Fixed(Component.empty()));
         }
 
-        Component sourceName = Component.literal("\u2696")
+        Component sourceName = Component.literal("\uE000")
                 .withStyle(Style.EMPTY
-                        .withFont(FontDescription.DEFAULT)
+                        .withFont(CommonFonts.TOOLTIP_FONT)
                         .withColor(source.getColor().asInt()))
                 .append(Component.literal(" " + StringUtils.capitalized(source.name()))
                         .withStyle(CommonStyles.LANGUAGE));
