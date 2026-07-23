@@ -7,6 +7,9 @@ package com.wynntils.features.tooltips;
 import com.wynntils.core.components.Handlers;
 import com.wynntils.core.consumers.features.Feature;
 import com.wynntils.core.consumers.features.ProfileDefault;
+import com.wynntils.core.consumers.features.properties.RegisterKeyBind;
+import com.wynntils.core.keybinds.KeyBind;
+import com.wynntils.core.keybinds.KeyBindDefinition;
 import com.wynntils.core.persisted.Persisted;
 import com.wynntils.core.persisted.config.Category;
 import com.wynntils.core.persisted.config.Config;
@@ -27,7 +30,6 @@ import java.util.TreeMap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextColor;
 import net.neoforged.bus.api.SubscribeEvent;
-import org.lwjgl.glfw.GLFW;
 
 @ConfigCategory(Category.TOOLTIPS)
 public class ItemStatInfoFeature extends Feature {
@@ -75,6 +77,18 @@ public class ItemStatInfoFeature extends Feature {
 
     @Persisted
     public final Config<Integer> decimalPlaces = new Config<>(1);
+
+    @RegisterKeyBind
+    private final KeyBind identificationRangeKeyBind = KeyBindDefinition.SHOW_IDENTIFICATION_RANGE.create(null, null);
+
+    @RegisterKeyBind
+    private final KeyBind identificationRerollKeyBind = KeyBindDefinition.SHOW_IDENTIFICATION_REROLL.create(null, null);
+
+    @RegisterKeyBind
+    private final KeyBind weightDistributionKeyBind = KeyBindDefinition.SHOW_WEIGHT_DISTRIBUTION.create(null, null);
+
+    @RegisterKeyBind
+    private final KeyBind weightContributionKeyBind = KeyBindDefinition.SHOW_WEIGHT_CONTRIBUTION.create(null, null);
 
     private static final NavigableMap<Float, TextColor> LERP_MAP = new TreeMap<>(Map.of(
             0f,
@@ -142,21 +156,23 @@ public class ItemStatInfoFeature extends Feature {
     private IdentificationDisplay getIdentificationDisplay() {
         if (!identificationDecorations.get()) return IdentificationDisplay.PERCENTAGE;
 
-        boolean shiftDown = KeyboardUtils.isKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT);
-        boolean controlDown = KeyboardUtils.isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL);
+        boolean rangeDown = isKeyDown(identificationRangeKeyBind);
+        boolean rerollDown = isKeyDown(identificationRerollKeyBind);
 
-        if (shiftDown && controlDown) return IdentificationDisplay.INTERNAL_ROLL;
-        if (controlDown) return IdentificationDisplay.REROLL;
-        if (shiftDown) return IdentificationDisplay.RANGE;
+        if (rangeDown && rerollDown) return IdentificationDisplay.INTERNAL_ROLL;
+        if (rerollDown) return IdentificationDisplay.REROLL;
+        if (rangeDown) return IdentificationDisplay.RANGE;
         return IdentificationDisplay.PERCENTAGE;
     }
 
     private WeightDisplay getWeightDisplay() {
-        if (!KeyboardUtils.isKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT)) return WeightDisplay.OVERALL;
+        if (!isKeyDown(weightDistributionKeyBind)) return WeightDisplay.OVERALL;
 
-        return KeyboardUtils.isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL)
-                ? WeightDisplay.CONTRIBUTION
-                : WeightDisplay.DISTRIBUTION;
+        return isKeyDown(weightContributionKeyBind) ? WeightDisplay.CONTRIBUTION : WeightDisplay.DISTRIBUTION;
+    }
+
+    private static boolean isKeyDown(KeyBind keyBind) {
+        return KeyboardUtils.isKeyDown(keyBind.getKeyMapping().key.getValue());
     }
 
     private NavigableMap<Float, TextColor> createFlatMap() {

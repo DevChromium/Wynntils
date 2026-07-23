@@ -804,8 +804,9 @@ public final class IdentifiableTooltipBuilder<T, U> extends TooltipBuilder {
                         .withFont(CommonFonts.IDENTIFICATION_DIVIDER_FONT)
                         .withColor(color))
                 .append(Component.literal(" " + label + " ")
-                        .withStyle(
-                                Style.EMPTY.withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT).withColor(color)))
+                        .withStyle(Style.EMPTY
+                                .withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT)
+                                .withColor(color)))
                 .append(Component.literal("\uE001")
                         .withStyle(Style.EMPTY
                                 .withFont(CommonFonts.IDENTIFICATION_DIVIDER_FONT)
