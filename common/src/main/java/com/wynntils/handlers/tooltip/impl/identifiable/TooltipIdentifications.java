@@ -132,12 +132,14 @@ public final class TooltipIdentifications {
         MutableComponent left = Component.empty();
         appendIconPrefix(left, statType, actualValue.hasIconPrefix());
         left.append(Component.literal(displayName + " ")
-                .withStyle(Style.EMPTY.withFont(CommonFonts.LANGUAGE_FONT).withColor(ChatFormatting.WHITE)));
+                .withStyle(Style.EMPTY
+                        .withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT)
+                        .withColor(ChatFormatting.WHITE)));
 
         MutableComponent right = Component.literal(
                         StringUtils.toSignedString(value) + statType.getUnit().getDisplayName())
                 .withStyle(Style.EMPTY
-                        .withFont(CommonFonts.LANGUAGE_FONT)
+                        .withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT)
                         .withColor(positive ? ChatFormatting.GREEN : ChatFormatting.RED));
         if (suffix != null) right.append(suffix);
         return Pair.of(left, right);
@@ -157,13 +159,21 @@ public final class TooltipIdentifications {
                 itemInfo.getIdentificationLevelRange());
 
         MutableComponent left = Component.literal(displayName + " ")
-                .withStyle(Style.EMPTY.withFont(CommonFonts.LANGUAGE_FONT).withColor(ChatFormatting.WHITE));
+                .withStyle(Style.EMPTY
+                        .withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT)
+                        .withColor(ChatFormatting.WHITE));
         MutableComponent right = Component.literal(StringUtils.toSignedString(range.a()))
-                .withStyle(Style.EMPTY.withFont(CommonFonts.LANGUAGE_FONT).withColor(color));
+                .withStyle(Style.EMPTY
+                        .withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT)
+                        .withColor(color));
         right.append(Component.literal(" to ")
-                .withStyle(Style.EMPTY.withFont(CommonFonts.LANGUAGE_FONT).withColor(darkColor)));
+                .withStyle(Style.EMPTY
+                        .withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT)
+                        .withColor(darkColor)));
         right.append(Component.literal(range.b() + statType.getUnit().getDisplayName())
-                .withStyle(Style.EMPTY.withFont(CommonFonts.LANGUAGE_FONT).withColor(color)));
+                .withStyle(Style.EMPTY
+                        .withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT)
+                        .withColor(color)));
         return Pair.of(left, right);
     }
 

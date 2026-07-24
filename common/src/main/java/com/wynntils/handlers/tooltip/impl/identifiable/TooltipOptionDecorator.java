@@ -61,7 +61,7 @@ public final class TooltipOptionDecorator implements TooltipIdentificationDecora
                         StatCalculator.getPercentage(actualValue, possibleValues),
                         options.colorLerp(),
                         options.decimalPlaces())
-                .withStyle(componentStyle -> componentStyle.withFont(CommonFonts.LANGUAGE_FONT));
+                .withStyle(componentStyle -> componentStyle.withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT));
         if (style.rainbowInternalRoll() && actualValue.stars() == 3) {
             percentage.withColor(WynncraftShaderColor.RAINBOW.color.asInt());
         }

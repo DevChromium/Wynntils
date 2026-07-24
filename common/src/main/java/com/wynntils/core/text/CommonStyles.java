@@ -10,7 +10,7 @@ import net.minecraft.network.chat.Style;
 
 public final class CommonStyles {
     public static final Style LANGUAGE =
-            Style.EMPTY.withFont(CommonFonts.LANGUAGE_FONT).withColor(ChatFormatting.WHITE);
+            Style.EMPTY.withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT).withColor(ChatFormatting.WHITE);
     public static final Style SPACE =
             Style.EMPTY.withFont(CommonFonts.SPACE_FONT).withoutShadow();
 }

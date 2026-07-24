@@ -274,7 +274,7 @@ public final class IdentifiableTooltipBuilder<T, U> extends TooltipBuilder {
             float percentage = Services.ItemWeight.calculateWeighting(weighting, item);
             Component percentageComponent = ColorScaleUtils.getPercentageTextComponent(
                             options.colorMap(), percentage, options.colorLerp(), options.decimalPlaces())
-                    .withStyle(style -> style.withFont(CommonFonts.LANGUAGE_FONT));
+                    .withStyle(style -> style.withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT));
 
             lines.add(new TooltipLine.Aligned(
                     Component.literal(weighting.weightName() + " Scale").withStyle(CommonStyles.LANGUAGE),
@@ -326,7 +326,9 @@ public final class IdentifiableTooltipBuilder<T, U> extends TooltipBuilder {
         MutableComponent left =
                 requirementIcon(fulfilled).append(Component.literal(label).withStyle(CommonStyles.LANGUAGE));
         Component right = Component.literal(value)
-                .withStyle(Style.EMPTY.withFont(CommonFonts.LANGUAGE_FONT).withColor(ChatFormatting.GRAY));
+                .withStyle(Style.EMPTY
+                        .withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT)
+                        .withColor(ChatFormatting.GRAY));
         return new TooltipLine.Aligned(left, right);
     }
 
@@ -359,7 +361,7 @@ public final class IdentifiableTooltipBuilder<T, U> extends TooltipBuilder {
             line.append(Component.literal("\uDB00\uDC03").withStyle(CommonStyles.SPACE));
             line.append(Component.literal(String.valueOf(count))
                     .withStyle(Style.EMPTY
-                            .withFont(CommonFonts.LANGUAGE_FONT)
+                            .withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT)
                             .withColor(count == 0 ? 0x555555 : fulfilled ? 0xacfac6 : 0xfaacac)));
             line.append(Component.literal("\uDB00\uDC04").withStyle(CommonStyles.SPACE));
         }
@@ -377,7 +379,7 @@ public final class IdentifiableTooltipBuilder<T, U> extends TooltipBuilder {
                                         .withStyle(Style.EMPTY.withFont(CommonFonts.COMMON_FONT))))
                                 .append(Component.literal(" " + shiny.statType().displayName())
                                         .withStyle(Style.EMPTY
-                                                .withFont(CommonFonts.LANGUAGE_FONT)
+                                                .withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT)
                                                 .withColor(dividerColor(tier)))),
                         buildShinyValue(shiny, tier))))
                 .orElseGet(List::of);
@@ -429,14 +431,15 @@ public final class IdentifiableTooltipBuilder<T, U> extends TooltipBuilder {
                     lines.add(new TooltipLine.Fixed(Component.empty()));
                     MutableComponent text = Component.empty()
                             .withStyle(Style.EMPTY
-                                    .withFont(CommonFonts.LANGUAGE_FONT)
+                                    .withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT)
                                     .withColor(dividerColor(item.getGearTier())))
                             .append(Component.literal("\uE000")
                                     .withStyle(Style.EMPTY.withFont(CommonFonts.MAJOR_ID_FONT)))
                             .append(Component.literal("\uDB00\uDC02"))
                             .append(Component.literal(major.name() + ": "))
                             .append(major.lore()
-                                    .map(part -> part.withStyle(style -> style.withFont(CommonFonts.LANGUAGE_FONT)))
+                                    .map(part -> part.withStyle(
+                                            style -> style.withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT)))
                                     .getComponent());
                     ComponentUtils.splitComponent(text, TOOLTIP_MIN_WIDTH).stream()
                             .map(TooltipLine.Fixed::new)
@@ -476,7 +479,8 @@ public final class IdentifiableTooltipBuilder<T, U> extends TooltipBuilder {
 
     private Component buildNameLine(String emblemFrame, String emblemSprite, Component title) {
         MutableComponent line = Component.literal("\uDAFF\uDFF0")
-                .withStyle(style -> style.withFont(CommonFonts.LANGUAGE_FONT).withShadowColor(0xffffff));
+                .withStyle(style ->
+                        style.withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT).withShadowColor(0xffffff));
         line.append(Component.literal(emblemFrame).withStyle(Style.EMPTY.withFont(CommonFonts.EMBLEM_FRAME_FONT)));
         line.append("\uDAFF\uDFCF");
         line.append(Component.literal(emblemSprite)
@@ -492,7 +496,9 @@ public final class IdentifiableTooltipBuilder<T, U> extends TooltipBuilder {
                 && shinyItem.getShinyStat().isPresent();
         String name = shiny ? "Shiny " + item.getName() : item.getName();
         Component title = Component.literal(name)
-                .withStyle(Style.EMPTY.withFont(CommonFonts.LANGUAGE_FONT).withColor(tier.getChatFormatting()));
+                .withStyle(Style.EMPTY
+                        .withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT)
+                        .withColor(tier.getChatFormatting()));
         return new TooltipOptionDecorator(item, options).getTitle(title);
     }
 
@@ -566,7 +572,7 @@ public final class IdentifiableTooltipBuilder<T, U> extends TooltipBuilder {
         CustomColor tierColor = CustomColor.fromInt(dividerColor(info.tier()));
         MutableComponent line = Component.empty()
                 .withStyle(Style.EMPTY
-                        .withFont(CommonFonts.LANGUAGE_FONT)
+                        .withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT)
                         .withColor(tierColor.asInt())
                         .withShadowColor(0xffffff));
         boolean hasSet = info.setInfo().isPresent();
@@ -644,11 +650,11 @@ public final class IdentifiableTooltipBuilder<T, U> extends TooltipBuilder {
                                 .withStyle(Style.EMPTY.withFont(CommonFonts.ATTRIBUTE_SPRITE_FONT)))
                         .append(Component.literal(" " + speed.getName() + " ")
                                 .withStyle(Style.EMPTY
-                                        .withFont(CommonFonts.LANGUAGE_FONT)
+                                        .withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT)
                                         .withColor(ChatFormatting.GRAY)))
                         .append(Component.literal("(" + speed.getHitsPerSecond() + " hits/s)")
                                 .withStyle(Style.EMPTY
-                                        .withFont(CommonFonts.LANGUAGE_FONT)
+                                        .withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT)
                                         .withColor(ChatFormatting.DARK_GRAY)))));
 
         if (!info.fixedStats().damages().isEmpty())
@@ -663,9 +669,11 @@ public final class IdentifiableTooltipBuilder<T, U> extends TooltipBuilder {
         for (Pair<DamageType, RangedValue> damage : damages) {
             line.append(withWhiteShadow(Component.literal(damage.a().getTooltipSprite())
                     .withStyle(Style.EMPTY.withFont(CommonFonts.ATTRIBUTE_SPRITE_FONT))));
-            line.append(Component.literal(
-                            " " + damage.b().low() + "-" + damage.b().high() + " ")
-                    .withStyle(Style.EMPTY.withFont(CommonFonts.LANGUAGE_FONT).withColor(ChatFormatting.GRAY)));
+            line.append(
+                    Component.literal(" " + damage.b().low() + "-" + damage.b().high() + " ")
+                            .withStyle(Style.EMPTY
+                                    .withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT)
+                                    .withColor(ChatFormatting.GRAY)));
         }
         return line;
     }
@@ -676,7 +684,9 @@ public final class IdentifiableTooltipBuilder<T, U> extends TooltipBuilder {
             line.append(withWhiteShadow(Component.literal(defence.a().getTooltipSprite())
                     .withStyle(Style.EMPTY.withFont(CommonFonts.ATTRIBUTE_SPRITE_FONT))));
             line.append(Component.literal(" " + StringUtils.toSignedCommaString(defence.b()) + " ")
-                    .withStyle(Style.EMPTY.withFont(CommonFonts.LANGUAGE_FONT).withColor(ChatFormatting.GRAY)));
+                    .withStyle(Style.EMPTY
+                            .withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT)
+                            .withColor(ChatFormatting.GRAY)));
         }
         return line;
     }
