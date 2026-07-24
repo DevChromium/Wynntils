@@ -11,6 +11,7 @@ import com.wynntils.handlers.tooltip.type.TooltipOptions.IdentificationDisplay;
 import com.wynntils.handlers.tooltip.type.TooltipStyle;
 import com.wynntils.models.items.properties.IdentifiableItemProperty;
 import com.wynntils.models.stats.StatCalculator;
+import com.wynntils.models.stats.StatCalculator.PercentageCalculation;
 import com.wynntils.models.stats.type.StatActualValue;
 import com.wynntils.models.stats.type.StatPossibleValues;
 import com.wynntils.utils.colors.CommonColors;
@@ -18,7 +19,6 @@ import com.wynntils.utils.colors.WynncraftShaderColor;
 import com.wynntils.utils.mc.ComponentUtils;
 import com.wynntils.utils.wynn.ColorScaleUtils;
 import java.util.Locale;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FontDescription;
 import net.minecraft.network.chat.MutableComponent;
@@ -62,14 +62,12 @@ public final class TooltipOptionDecorator implements TooltipIdentificationDecora
             StatActualValue actualValue, StatPossibleValues possibleValues, TooltipStyle style) {
         if (!options.identificationDecorations()) return Component.empty();
 
-        if (!possibleValues.range().inRange(actualValue.value())) {
-            return Component.literal(" [NEW]").withStyle(ChatFormatting.GOLD);
-        }
-
         IdentificationDisplay display = options.identificationDisplay();
         MutableComponent suffix =
                 switch (display) {
-                    case PERCENTAGE -> buildPercentage(actualValue, possibleValues, style);
+                    case PERCENTAGE ->
+                        buildPercentage(
+                                actualValue, StatCalculator.calculatePercentage(actualValue, possibleValues), style);
                     case RANGE -> {
                         var range = StatCalculator.getDisplayRange(possibleValues, style.showBestValueLastAlways());
                         yield Component.literal(" [")
@@ -118,12 +116,13 @@ public final class TooltipOptionDecorator implements TooltipIdentificationDecora
     }
 
     private MutableComponent buildPercentage(
-            StatActualValue actualValue, StatPossibleValues possibleValues, TooltipStyle style) {
+            StatActualValue actualValue, PercentageCalculation calculation, TooltipStyle style) {
         MutableComponent percentage = ColorScaleUtils.getPercentageTextComponent(
                         options.colorMap(),
-                        StatCalculator.getPercentage(actualValue, possibleValues),
+                        calculation.value(),
                         options.colorLerp(),
-                        options.decimalPlaces())
+                        options.decimalPlaces(),
+                        calculation.estimated())
                 .withStyle(componentStyle -> componentStyle.withFont(CommonFonts.LANGUAGE_WYNNCRAFT_FONT));
         if (style.rainbowInternalRoll() && actualValue.stars() == 3) {
             percentage.withColor(WynncraftShaderColor.RAINBOW.color.asInt());
